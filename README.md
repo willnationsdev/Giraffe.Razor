@@ -41,7 +41,13 @@ type Startup() =
         svc.AddRazorEngine viewsFolderPath |> ignore
 ```
 
-If your all of your Razor views are kept in a Razor class library, then you do not need to specify a views folder path when registering the Razor dependencies. In this case there is an overload of `AddRazorEngine` which takes no arguments:
+By default, calling it with a views folder path will first clear any existing file providers. This can cause problems if you intend to integrate F# code with an existing MVC framework that has its own file providers. To prevent this, pass `true` to the second parameter, `persistFileProviders`:
+
+```fsharp
+svc.AddRazorEngine (viewsFolderPath, true) |> ignore
+```
+
+If all of your Razor views are kept in a Razor class library, then you do not need to specify a views folder path when registering the Razor dependencies. In this case there is an overload of `AddRazorEngine` which takes no arguments:
 
 ```fsharp
 open Giraffe
